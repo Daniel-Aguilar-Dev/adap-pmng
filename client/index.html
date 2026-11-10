@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <title>Page Title</title>
+    <link rel='stylesheet' href='main.css'>
+</head>
+<body>
+    <form id="formulario">
+        <label for="">Nombre:</label> <br>
+        <input type="text" name="nombre" id="nombre"> <button type="submit">Guardar</button>
+    </form>
+    <h1>Lista de nombres</h1>
+    <ul id="listaNombres">
+    </ul>
+    <div class="acciones">
+            <button type="button" id="btnListar">
+                Actualizar lista
+            </button>
+    </div>
+<script>
+    const API_URL = "http://13.220.91.254:8089/people";
+
+    const formulario = document.getElementById("formulario");
+    const inputNombre = document.getElementById("nombre");
+    const listaNombres = document.getElementById("listaNombres");
+    const btnListar = document.getElementById("btnListar");
+
+    // Guardar un nombre
+    formulario.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        await fetch(API_URL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                nombre: inputNombre.value
+            })
+        });
+
+        formulario.reset();
+        listarNombres();
+    });
+
+    // Listar nombres
+    async function listarNombres() {
+        const respuesta = await fetch(API_URL);
+        const nombres = await respuesta.json();
+
+        listaNombres.innerHTML = "";
+
+        nombres.forEach(persona => {
+            listaNombres.innerHTML +=
+                `<li>${persona.nombre}</li>`;
+        });
+    }
+
+    // Actualizar lista
+    btnListar.addEventListener("click", listarNombres);
+
+    // Cargar lista al iniciar
+    listarNombres();
+</script>
+
+
+</body>
+</html>
