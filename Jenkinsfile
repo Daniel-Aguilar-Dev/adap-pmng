@@ -1,7 +1,7 @@
 pipeline {
 	agent any
 	
-	enviroment{
+	environment{
 		COMPOSE_PROJECT_NAME='pmng'
 		COMPOSE_FILE='docker-compose.yml'
 		ENV_FILE= credentials('pmng-env')
