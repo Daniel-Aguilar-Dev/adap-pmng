@@ -11,7 +11,7 @@ services:
       DC_DB_USER: ${ENV_DB_USER}
       DC_DB_PASS: ${ENV_DB_PASS}
     ports:
-      -"8089:8080"
+      - "8089:8080"
     networks:
       - pmng-net
 
@@ -20,7 +20,7 @@ services:
     build: 
       context: ./client
     ports:
-      -"5173:80"
+      - "5173:80"
     networks:
       - pmng-net
 networks:
