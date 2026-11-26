@@ -12,7 +12,7 @@ pipeline {
 			steps{
 				echo 'Deteniendo contenedores...'
 				sh '''
-					docker compose -p ${COMPOSE_PROJECT_NAME} -f ${COMPOSE_FILE} --env_file ${ENV_FILE} down
+					docker compose -p ${COMPOSE_PROJECT_NAME} -f ${COMPOSE_FILE} --env-file ${ENV_FILE} down
 				'''
 			}
 		}
@@ -20,7 +20,7 @@ pipeline {
 			steps{
 				echo 'Eliminando imagenes antiguas...'
 				sh '''
-					IMAGENES=$(docker compose -p ${COMPOSE_PROJECT_NAME} -f ${COMPOSE_FILE} --env_file ${ENV_FILE} config --images | sort -u)
+					IMAGENES=$(docker compose -p ${COMPOSE_PROJECT_NAME} -f ${COMPOSE_FILE} --env-file ${ENV_FILE} config --images | sort -u)
                     for IMAGE in $IMAGENES; do
                         echo "Eliminando imagen: $IMAGE"
                         docker rmi "$IMAGE" || true
@@ -32,7 +32,7 @@ pipeline {
             steps{
                 echo 'Creando nuevas imagenes...'
                 sh '''
-                    docker compose -p ${COMPOSE_PROJECT_NAME} -f ${COMPOSE_FILE} --env_file ${ENV_FILE} build --no-cache
+                    docker compose -p ${COMPOSE_PROJECT_NAME} -f ${COMPOSE_FILE} --env-file ${ENV_FILE} build --no-cache
                 '''
             }
         }
@@ -40,7 +40,7 @@ pipeline {
             steps{
                 echo 'Levantando contenedores...'
                 sh '''
-                    docker compose -p ${COMPOSE_PROJECT_NAME} -f ${COMPOSE_FILE} --env_file ${ENV_FILE} up -d
+                    docker compose -p ${COMPOSE_PROJECT_NAME} -f ${COMPOSE_FILE} --env-file ${ENV_FILE} up -d
                 '''
             }
         }
